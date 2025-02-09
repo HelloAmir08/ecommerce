@@ -20,12 +20,14 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 
-import customer
+
 
 urlpatterns = [
-       path('admin/', admin.site.urls),
-       path('customer/', include("customer.urls")),
-       path('product/', include("product.urls"))
+    path('admin/', admin.site.urls),
+
+    path('customer/', include("customer.urls")),
+    path('product/', include("product.urls")),
+    path("login/", include("user.urls")),
 ]
 
 if settings.DEBUG:

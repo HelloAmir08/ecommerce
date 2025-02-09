@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from product.models import Product, Category, Comment
 from product.forms import CommentForm
+from customer.models import Customer
 
 def product_list(request):
+    customers = Customer.objects.all()
     search_query = request.GET.get('q', '')
     categories=Category.objects.all()
     sort_option = request.GET.get('sort', 'rating')
@@ -16,6 +18,7 @@ def product_list(request):
     if search_query:
         products = Product.objects.filter(name__icontains=search_query)
     context={
+        'customers':customers,
         'products':products,
         'categories':categories,
         'sort_option':sort_option,

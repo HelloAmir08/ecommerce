@@ -47,6 +47,7 @@ class Product(BaseModel):
         else:
             new_price = self.price
         return new_price.quantize(Decimal('0.01'))
+
     def __str__(self):
         return self.name
 class ProductSpecification(models.Model):
