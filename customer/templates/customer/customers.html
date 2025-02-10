@@ -357,7 +357,7 @@
                           </a>
                           <!-- more inner pages-->
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="../../pages/authentication/simple/logout.html" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link" href="{% url "logout_page" %}" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Logout</span>
                             </div>
                           </a>
@@ -1721,7 +1721,7 @@
 
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="../../pages/user/settings.html">Settings</a>
-                    <a class="dropdown-item" href="../../pages/authentication/card/logout.html">Logout</a>
+                    <a class="dropdown-item" href="{% url "logout_page" %}">Logout</a>
                   </div>
                 </div>
               </li>
