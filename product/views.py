@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.core.paginator import Paginator
 from product.models import Product, Category, Comment
 from product.forms import CommentForm
 from customer.models import Customer
@@ -7,23 +7,31 @@ from customer.models import Customer
 def product_list(request):
     customers = Customer.objects.all()
     search_query = request.GET.get('q', '')
-    categories=Category.objects.all()
+    categories = Category.objects.all()
     sort_option = request.GET.get('sort', 'rating')
+
     if sort_option == 'newest':
         products = Product.objects.order_by('-id')
     elif sort_option == 'price':
         products = Product.objects.order_by('-price')
     else:
         products = Product.objects.order_by('-rating')
+
     if search_query:
-        products = Product.objects.filter(name__icontains=search_query)
-    context={
-        'customers':customers,
-        'products':products,
-        'categories':categories,
-        'sort_option':sort_option,
+        products = products.filter(name__icontains=search_query)
+    paginator = Paginator(products, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'customers': customers,
+        'products': page_obj,
+        'categories': categories,
+        'sort_option': sort_option,
+        'page_obj': page_obj,
     }
-    return render(request, "product/product-list.html", context=context)
+    return render(request, "product/product-list.html", context)
+
 
 
 
