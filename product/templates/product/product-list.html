@@ -1755,9 +1755,23 @@
                 <div class="col-12 p-card">
                   <div class="row">
                     <div class="col-sm-5 col-md-4">
-                      <div class="position-relative h-sm-100"><a class="d-block h-100" href="{% url 'product_detail' product.pk  %}"><img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered" src="{{ product.get_image_url }}" alt="" /></a>
-                      </div>
-                    </div>
+                                <div class="position-relative h-sm-100">
+                                    <div class="swiper-container theme-slider h-100"
+                                         data-swiper='{"autoplay":true,"autoHeight":true,"spaceBetween":5,"loop":true,"loopedSlides":5,"navigation":{"nextEl":".swiper-button-next","prevEl":".swiper-button-prev"}}'>
+                                        <div class="swiper-wrapper h-100">
+                                            {% for i in product.images.all %}
+                                                <div class="swiper-slide h-100"><img
+                                                        class="rounded-1 fit-cover h-100 w-100"
+                                                        src="{{ i.image.url }}" alt=""/></div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="swiper-nav">
+                                            <div class="swiper-button-next swiper-button-white"></div>
+                                            <div class="swiper-button-prev swiper-button-white"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     <div class="col-sm-7 col-md-8">
                       <div class="row">
                         <div class="col-lg-8">
