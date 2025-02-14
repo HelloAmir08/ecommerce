@@ -23,14 +23,16 @@ class LoginForm(forms.Form):
         return password
 
 class RegisterForm(forms.ModelForm):
-    username = forms.CharField(required=False)
+    img = forms.ImageField(required=False)
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('username','email', 'password', 'confirm_password')
+        fields = ('first_name', 'last_name','email', 'password', 'confirm_password', 'img')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

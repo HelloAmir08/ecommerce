@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from product.models import Product, Category, Comment
+from user.models import User
 from product.forms import CommentForm
 from customer.models import Customer
 
@@ -9,6 +10,7 @@ def product_list(request):
     search_query = request.GET.get('q', '')
     categories = Category.objects.all()
     sort_option = request.GET.get('sort', 'rating')
+
 
     if sort_option == 'newest':
         products = Product.objects.order_by('-id')
@@ -29,6 +31,7 @@ def product_list(request):
         'categories': categories,
         'sort_option': sort_option,
         'page_obj': page_obj,
+        'user': request.user,
     }
     return render(request, "product/product-list.html", context)
 
@@ -42,6 +45,7 @@ def product_detail(request, pk):
     context = {
         'product': product,
         'comments': comments,
+        'user': request.user,
     }
     return render(request, 'product/product-details.html', context=context)
 

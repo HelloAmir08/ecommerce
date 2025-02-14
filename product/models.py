@@ -30,7 +30,6 @@ class Product(BaseModel):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='products', null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1, null=True, blank=True)
     stock = models.BooleanField(default=False)
-    favorite = models.BooleanField(default=False)
     rating = models.PositiveIntegerField(choices=RatingChoice.choices, default=RatingChoice.ZERO.value)
 
 
@@ -39,7 +38,7 @@ class Product(BaseModel):
         image = self.images.first()
         if image and image.image:
             return image.image.url
-        return "/static/default-image.jpg"
+        return "product_image/default-image.jpg"
     @property
     def discounted_price(self):
         if self.discount > 0:
@@ -70,7 +69,7 @@ class Comment(BaseModel):
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
     review = models.TextField()
-    rating = models.PositiveSmallIntegerField(default=0)
+    rating = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f'{self.full_name} - {self.rating} stars'

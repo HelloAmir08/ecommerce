@@ -1,6 +1,13 @@
 from django.contrib import admin
-from django.utils.html import format_html
-from .models import Product, Category, Image, ProductSpecification, Comment
+from django.contrib.auth.models import User
+from .models import Category, Product, ProductSpecification, Image, Comment
+admin.site.register(User)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created_at', 'updated_at')
+    search_fields = ('name',)
 
 class ImageInline(admin.TabularInline):
     model = Image
@@ -12,35 +19,22 @@ class ProductSpecificationInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'category', 'price', 'get_discounted_price', 'stock', 'rating', 'created_at')
-    list_filter = ('stock', 'category', 'rating', 'created_at')
-    search_fields = ('name', 'category__name')
-    readonly_fields = ('created_at', 'updated_at')
+    list_display = ('id', 'name', 'category', 'price', 'discounted_price', 'stock', 'rating')
+    list_filter = ('category', 'stock', 'rating')
+    search_fields = ('name', 'description')
     inlines = [ImageInline, ProductSpecificationInline]
 
-    def view_image(self, obj):
-        if obj.get_image_url:
-            return format_html('<img src="{}" width="50" height="50" style="border-radius:5px;"/>', obj.get_image_url)
-        return "No Image"
-    view_image.short_description = "Preview"
+@admin.register(ProductSpecification)
+class ProductSpecificationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'key', 'value')
+    search_fields = ('product__name', 'key', 'value')
 
-    @admin.display(description="Discounted Price")
-    def get_discounted_price(self, obj):
-        return f"{obj.discounted_price:.2f}"
-
-    @admin.action(description="Activate selected products")
-    def make_active(self, request, queryset):
-        queryset.update(stock=True)
-
-
-
-
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'created_at')
-    search_fields = ('name',)
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'image')
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'product', 'full_name', 'email', 'rating', 'created_at')
-    search_fields = ('full_name', 'product__name')
+    list_filter = ('rating',)
+    search_fields = ('full_name', 'email', 'review')

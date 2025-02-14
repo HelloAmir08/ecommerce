@@ -30,23 +30,41 @@ def login_page(request):
     }
     return render(request, 'user_auth/login.html', context=context)
 
+
 def logout_page(request):
     logout(request)
     return render(request, 'user_auth/logout.html')
 
+
 def register_page(request):
     form = RegisterForm()
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
             user.is_staff = True
             user.is_superuser = True
             user.set_password(user.password)
             user.save()
+            login(request, user)
             return redirect('login')
-    context = {
-        'form': form
-    }
 
-    return render(request, 'user_auth/register.html', context=context)
+    context = {'form': form}
+    return render(request, 'user_auth/register.html', context)
+
+
+def user_profile_view(request):
+    user = request.user
+    if request.method == 'POST':
+        form = RegisterForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+    else:
+        form = RegisterForm(instance=user)
+
+    context = {
+        'form': form,
+        'user': user
+    }
+    return render(request, 'user_auth/user_profile.html', context)
