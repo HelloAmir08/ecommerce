@@ -31,5 +31,12 @@
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="ecommerce@localhost" uuid="3d1aa2cf-aa53-4c6c-88fc-4fed1391c8c3">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/ecommerce</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

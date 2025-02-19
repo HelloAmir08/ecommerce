@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.core.mail import send_mail
+
 
 from user.forms import LoginForm, RegisterForm
 
@@ -46,6 +48,12 @@ def register_page(request):
             user.is_superuser = True
             user.set_password(user.password)
             user.save()
+            send_mail(
+                'Amir\'s onlineshop',
+                f'User - {user.first_name} {user.last_name} successfully registered!',
+                'amirjontoirov03@gmail.com',
+                (f'{user.email}',)
+            )
             login(request, user)
             return redirect('login')
 
