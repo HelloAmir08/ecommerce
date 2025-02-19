@@ -55,7 +55,7 @@ def register_page(request):
                 (f'{user.email}',)
             )
             login(request, user)
-            return redirect('login')
+            return redirect('product_list')
 
     context = {'form': form}
     return render(request, 'user_auth/register.html', context)
