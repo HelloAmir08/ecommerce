@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
 from .models import Category, Product, ProductSpecification, Image, Comment
+from user.models import User
 admin.site.register(User)
 
 

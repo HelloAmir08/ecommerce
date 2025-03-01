@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+
 from user.models import User
 from user.forms import LoginForm
 
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-
 
 
 def login_page(request):
@@ -39,12 +41,19 @@ from django.shortcuts import render, redirect
 from .tokens import account_activation_token
 from .forms import RegisterForm
 
+
 def register_page(request):
     form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
+            try:
+                validate_password(form.cleaned_data['password'])
+            except ValidationError as e:
+                for error in e.messages:
+                    messages.error(request, error)
+                return render(request, 'user_auth/register.html', {'form': form})
             user.set_password(user.password)
             if user.is_verified:
                 user.is_active = True
@@ -72,7 +81,6 @@ def register_page(request):
             return redirect('login')
 
     return render(request, 'user_auth/register.html', {'form': form})
-
 
 
 def user_profile_view(request):

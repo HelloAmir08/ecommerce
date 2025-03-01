@@ -1,0 +1,27 @@
+{
+   "id": 6,
+   "name": "wrjgiurw",
+   "description": "ingwiu4gijjuijn",
+   "price": 1234.0,
+   "discount": 10,
+   "category": "phones",
+   "quantity": 100,
+   "stock": false,
+   "rating": 3,
+   "created_at": "2025-03-01 11:41:46.181208+00:00",
+   "updated_at": "2025-03-01 11:41:46.181230+00:00",
+   "product_specification": [
+      {
+         "key": "gh",
+         "value": "ghj"
+      },
+      {
+         "key": "rty",
+         "value": "5t678"
+      },
+      {
+         "key": "rtyu",
+         "value": "rftgyuji"
+      }
+   ]
+}

@@ -2386,7 +2386,7 @@
                                                     {% endfor %}
                                                 </div>
                                                 <div class="col-lg-6 ps-lg-5">
-                                                    <form method="POST" action="{% url 'comment_detail' product.pk %}">
+                                                    <form method="POST" action="{% url 'comment_detail' slug=product.slug  %}">
                                                         {% csrf_token %}
                                                         <h5>Review:</h5>
                                                         <div class="rating-input">

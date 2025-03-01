@@ -10,7 +10,7 @@
         Verify Email
     </h2>
     <div style="margin: 0; padding: 15px; background-color: #ffffff;">
-        <p>Hi {{user.get_fullname}},</p>
+        <p>Hi {{user.first_name}},</p>
         <p>You created an account on Online_shop.com. You need to verify your email. Please click on the button below:</p>
 
         <a href="http://localhost:8000{% url 'verify-email-confirm' uidb64=uid token=token %}" style="text-decoration: none;">

@@ -1,0 +1,31 @@
+{
+   "id": 2,
+   "name": "Samsung S25",
+   "description": "Samsung Galaxy S25 Ultra — флагман с мощным процессором Snapdragon 8 Elite, 6,9\" Dynamic AMOLED 2X дисплеем (QHD+, 120 Гц) и камерой 200+50+10+50 МП. Батарея 5000 мАч, быстрая зарядка 45 Вт, защита IP68. Встроенный S Pen, AI-функции и премиальный титановый корпус.",
+   "price": 1200.0,
+   "discount": 0,
+   "category": "phones",
+   "quantity": 13,
+   "stock": true,
+   "rating": 4,
+   "created_at": "2025-02-21 18:00:19.427645+00:00",
+   "updated_at": "2025-02-21 18:00:19.427657+00:00",
+   "product_specification": [
+      {
+         "key": "Чипсет",
+         "value": "Qualcomm Snapdragon 8 Elite (4 нм)"
+      },
+      {
+         "key": "ОЗУ",
+         "value": "12 ГБ / 16 ГБ (LPDDR5X"
+      },
+      {
+         "key": "Встроенная память",
+         "value": "256 ГБ / 512 ГБ / 1 ТБ (UFS 4.0)"
+      },
+      {
+         "key": "Разрешение",
+         "value": "3120 × 1440 (QHD+)"
+      }
+   ]
+}

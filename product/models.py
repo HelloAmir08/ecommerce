@@ -1,5 +1,7 @@
 from django.db import models
 from decimal import Decimal
+from django.utils.text import slugify
+
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -7,6 +9,7 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
 
 class Category(BaseModel):
     name = models.CharField(max_length=100)
@@ -31,7 +34,12 @@ class Product(BaseModel):
     quantity = models.PositiveIntegerField(default=1, null=True, blank=True)
     stock = models.BooleanField(default=False)
     rating = models.PositiveIntegerField(choices=RatingChoice.choices, default=RatingChoice.ZERO.value)
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     @property
     def get_image_url(self):
@@ -39,6 +47,7 @@ class Product(BaseModel):
         if image and image.image:
             return image.image.url
         return "product_image/default-image.jpg"
+
     @property
     def discounted_price(self):
         if self.discount > 0:
@@ -49,6 +58,8 @@ class Product(BaseModel):
 
     def __str__(self):
         return self.name
+
+
 class ProductSpecification(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="specifications")
     key = models.CharField(max_length=255)
@@ -62,7 +73,9 @@ class Image(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='product_image/', null=True, blank=True)
 
+
 from django.db import models
+
 
 class Comment(BaseModel):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
@@ -73,9 +86,3 @@ class Comment(BaseModel):
 
     def __str__(self):
         return f'{self.full_name} - {self.rating} stars'
-
-
-
-
-
-
