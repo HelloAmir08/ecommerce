@@ -3,20 +3,20 @@ from django.core.paginator import Paginator
 from product.models import Product, Category, Comment
 from product.forms import CommentForm
 from customer.models import Customer
-
+from django.db.models import Avg
 
 def product_list(request):
     customers = Customer.objects.all()
     search_query = request.GET.get('q', '')
     categories = Category.objects.all()
     sort_option = request.GET.get('sort', 'rating')
-
+    products = Product.objects.annotate(avg_rating=Avg('comments__rating'))
     if sort_option == 'newest':
         products = Product.objects.order_by('-id')
     elif sort_option == 'price':
         products = Product.objects.order_by('-price')
     else:
-        products = Product.objects.order_by('-rating')
+        products = products.order_by('-avg_rating')
 
     if search_query:
         products = products.filter(name__icontains=search_query)

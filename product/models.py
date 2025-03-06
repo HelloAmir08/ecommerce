@@ -1,6 +1,7 @@
 from django.db import models
 from decimal import Decimal
 from django.utils.text import slugify
+from django.db.models import Avg
 
 
 class BaseModel(models.Model):
@@ -35,6 +36,9 @@ class Product(BaseModel):
     stock = models.BooleanField(default=False)
     rating = models.PositiveIntegerField(choices=RatingChoice.choices, default=RatingChoice.ZERO.value)
     slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def average_rating(self):
+        return self.comments.aggregate(avg_rating=Avg('rating'))['avg_rating'] or 0
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -78,7 +82,7 @@ from django.db import models
 
 
 class Comment(BaseModel):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='comments')
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
     review = models.TextField()
